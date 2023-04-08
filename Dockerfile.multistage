@@ -27,6 +27,8 @@ RUN go build -o /go-simple-api
 ##
 ## STEP 2 - DEPLOY
 ##
+
+## specify the base image where the app will be copied
 FROM scratch
 ENV USER=appuser
 
