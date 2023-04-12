@@ -28,8 +28,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /src/go-simple-api
 ## STAGE 2
 ###########################
 
+# For full static static apps use scratch, this will reduce the attack surface.
 FROM scratch
-## If using alpine, remmeber to update
+## For more dinaymic app use the latest version of alpine, remember to update to apply any available patches.
 # FROM alpine@sha256:b6ca290b6b4cdcca5b3db3ffa338ee0285c11744b4a6abaa9627746ee3291d8d
 # RUN apk update --no-cache && apk upgrade --no-cache
 
