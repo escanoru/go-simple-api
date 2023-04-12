@@ -1,45 +1,48 @@
 # syntax=docker/dockerfile:1
 
-##
-## STEP 1 - BUILD
-##
+###########################
+## STAGE 1
+###########################
 
-# specify the base image to  be used for the application:
-FROM golang:1.20.3-alpine AS build
-ENV USER=appuser
-ENV UID=1001
+# golang:1.20.3-alpine (Apr 4, 2023 at 12:57 pm)
+FROM golang@sha256:48c87cd759e3342fcbc4241533337141e7d8457ec33ab9660abe0a4346c30b60 AS build
+ARG USERNAME=apprunner
 
-# create a user
-RUN adduser --disabled-password --no-create-home --uid "${UID}" "${USER}"
+RUN adduser \
+--disabled-password \
+--gecos "" \
+--home "/home/${USERNAME}" \
+--shell "/sbin/nologin" \
+${USERNAME}
 
-# create a working directory inside the image
+WORKDIR /src
+ADD src /src
+RUN chown -R ${USERNAME} /src
+USER ${USERNAME}
+
+# download Go modules, dependencies and compile
+RUN go mod tidy
+RUN CGO_ENABLED=0 GOOS=linux go build -o /src/go-simple-api
+
+###########################
+## STAGE 2
+###########################
+
+FROM scratch
+## If using alpine, remmeber to update
+# FROM alpine@sha256:b6ca290b6b4cdcca5b3db3ffa338ee0285c11744b4a6abaa9627746ee3291d8d
+# RUN apk update --no-cache && apk upgrade --no-cache
+
 WORKDIR /app
 
-# copy the entire content of the current folder to the image
-COPY . .
-
-# download Go modules and dependencies
-RUN go mod tidy
-
-# compile application
-RUN go build -o /go-simple-api
-
-##
-## STEP 2 - DEPLOY
-##
-
-## specify the base image where the app will be copied
-FROM scratch
-ENV USER=appuser
-
-WORKDIR /
-
-COPY --from=build /go-simple-api /go-simple-api
+COPY --from=build /src/go-simple-api /app/go-simple-api
 
 COPY --from=build /etc/passwd /etc/passwd
 
-USER "${USER}"
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-EXPOSE 8080
+USER apprunner
 
-ENTRYPOINT ["/go-simple-api"]
+EXPOSE 8081
+
+ENTRYPOINT ["./go-simple-api"]
