@@ -1,5 +1,4 @@
 pipeline {
-
     agent { label 'ansible' }
     options {
         buildDiscarder(logRotator(numToKeepStr: '7'))
