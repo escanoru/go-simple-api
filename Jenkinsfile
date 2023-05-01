@@ -5,7 +5,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '7'))
     }
     environment {
-        DOCKER_CREDS = credentials(${params.DOCKER_CREDENTIALS})
+        DOCKER_CREDS = credentials("${params.DOCKER_CREDENTIALS}")
     }
     parameters {
             string(name: 'APP_NAME', defaultValue: 'empty', description: 'Name of the app to push to Dockerhub')
