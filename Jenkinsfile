@@ -13,19 +13,22 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t ${DOCKER_CREDENTIALS_USR}/${params.APP_NAME}:latest .'
+                // sh 'docker build -t ${DOCKER_CREDENTIALS_USR}/${params.APP_NAME}:latest .'
+                sh '''
+                echo ${DOCKER_CREDENTIALS_USR}
+                '''
             }
         }
-        stage('Login') {
-            steps {
-                sh 'echo ${env.DOCKER_CREDENTIALS_PSW} | docker login -u ${env.DOCKER_CREDENTIALS_USR} --password-stdin'
-            }
-        }
-        stage('Push') {
-            steps {
-                sh 'docker push ${env.DOCKER_CREDENTIALS_USR}/${params.APP_NAME}:latest'
-            }
-        }
+        // stage('Login') {
+        //     steps {
+        //         sh 'echo ${env.DOCKER_CREDENTIALS_PSW} | docker login -u ${env.DOCKER_CREDENTIALS_USR} --password-stdin'
+        //     }
+        // }
+        // stage('Push') {
+        //     steps {
+        //         sh 'docker push ${env.DOCKER_CREDENTIALS_USR}/${params.APP_NAME}:latest'
+        //     }
+        // }
     }
     // post {
     //     always {
