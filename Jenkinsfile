@@ -7,8 +7,8 @@ pipeline {
         DOCKER_CREDS = credentials("${params.DOCKER_CREDENTIALS}")
     }
     parameters {
-            string(name: 'APP_NAME', defaultValue: 'empty', description: 'Name of the app to push to Dockerhub')
-            string(name: 'DOCKER_CREDENTIALS', defaultValue: 'empty', description: 'Name of the docker credentials on Jenkins')
+            string(name: 'APP_NAME', defaultValue: 'go-simple-api', description: 'Name of the app to push to Dockerhub')
+            string(name: 'DOCKER_CREDENTIALS', defaultValue: 'docker-push', description: 'Name of the docker credentials on Jenkins')
     }
     stages {
         stage('Build') {
@@ -18,12 +18,12 @@ pipeline {
         }
         stage('Login') {
             steps {
-                sh 'echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin'
+                sh 'echo ${env.DOCKER_CREDS_PSW} | docker login -u ${env.DOCKER_CREDS_USR} --password-stdin'
             }
         }
         stage('Push') {
             steps {
-                sh 'docker push ${DOCKER_CREDS_USR}/${APP_NAME}:latest'
+                sh 'docker push ${env.DOCKER_CREDS_USR}/${params.APP_NAME}:latest'
             }
         }
     }
