@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t ${DOCKER_CREDENTIALS_USR}/${params.APP_NAME}:latest .'
+                sh 'docker build -t ${DOCKER_CREDENTIALS_USR}/"${params.APP_NAME}":latest .'
             }
         }
         // stage('Login') {
