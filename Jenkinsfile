@@ -35,7 +35,7 @@ pipeline {
     }
     post {
         always {
-            sh 'docker logout'
+            sh 'podman logout'
         }
     }
 }
