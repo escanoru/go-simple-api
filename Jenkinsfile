@@ -25,11 +25,11 @@ pipeline {
                 sh 'echo ${DOCKER_CREDS_PSW} | podman login -u ${DOCKER_CREDS_USR} --password-stdin'
             }
         }
-        // stage('Push') {
-        //     steps {
-        //         sh 'docker push ${env.DOCKER_CREDENTIALS_USR}/${params.APP_NAME}:latest'
-        //     }
-        // }
+        stage('Push') {
+            steps {
+                sh 'podmand push ${DOCKER_CREDENTIALS_USR}/${CONT_NAME}:latest'
+            }
+        }
     }
     // post {
     //     always {
