@@ -4,7 +4,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '7'))
     }
     environment {
-        DOCKER_CREDENTIALS=credentials('docker-push')
+        DOCKER_CREDS = credentials("${params.DOCKER_CREDENTIALS}")
         CONT_NAME = "${params.APP_NAME}"
     }
     parameters {
@@ -14,7 +14,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'podman build -t ${DOCKER_CREDENTIALS_USR}/${CONT_NAME}:latest .'
+                echo $USER
+                loginctl enable-linger jenkins
+                sh 'podman build -t ${DOCKER_CREDS_USR}/${CONT_NAME}:latest .'
             }
         }
         // stage('Login') {
