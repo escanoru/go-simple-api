@@ -13,8 +13,7 @@ pipeline {
     }
     stages {
         stage('Build') {
-            steps {
-                
+            steps {         
                 sh '''
                 echo $USER
                 loginctl enable-linger jenkins
