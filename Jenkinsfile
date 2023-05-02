@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Push') {
             steps {
-                sh 'podman push ${DOCKER_CREDENTIALS_USR}/${CONT_NAME}:latest --creds ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW}'
+                sh 'podman push ${DOCKER_CREDS_USR}/${CONT_NAME}:latest --creds ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW}'
             }
         }
     }
