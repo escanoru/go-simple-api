@@ -14,7 +14,7 @@ pipeline {
             string(name: 'REPO_NAME', defaultValue: 'go-simple-api', description: 'Name of the app to push to Dockerhub')
             string(name: 'DOCKER_CREDENTIALS', defaultValue: 'docker-push', description: 'Name of the docker username and passwoed credential on Jenkins')
             string(name: 'TAG', defaultValue: 'empty', description: 'Tag name to use for the container build')
-            choice(name: 'REGISTRY', choices: ['docker.io', 'quay.io'], description: 'Pick something')
+            choice(name: 'REGISTRY', choices: ['docker.io', 'quay.io'], description: 'Registry to use')
     }
     stages {
         stage('Build') {
