@@ -20,14 +20,16 @@ pipeline {
                 '''
             }
         }
-        stage('Login') {
-            steps {
-                sh 'echo ${DOCKER_CREDS_PSW} | podman login -u ${DOCKER_CREDS_USR} --password-stdin'
-            }
-        }
+
+        // Just for Docker
+        // stage('Login') {
+        //     steps {
+        //         sh 'echo ${DOCKER_CREDS_PSW} | podman login -u ${DOCKER_CREDS_USR} --password-stdin'
+        //     }
+        // }
         stage('Push') {
             steps {
-                sh 'podman push ${DOCKER_CREDENTIALS_USR}/${CONT_NAME}:latest'
+                sh 'podman push ${DOCKER_CREDENTIALS_USR}/${CONT_NAME}:latest --creds ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW}'
             }
         }
     }
