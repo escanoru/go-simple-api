@@ -9,7 +9,7 @@ pipeline {
     }
     parameters {
             string(name: 'APP_NAME', defaultValue: 'go-simple-api', description: 'Name of the app to push to Dockerhub')
-            string(name: 'DOCKER_CREDENTIALS', defaultValue: 'docker-push', description: 'Name of the docker credentials on Jenkins')
+            string(name: 'DOCKER_CREDENTIALS', defaultValue: 'docker-push', description: 'Name of the docker username and passwoed credential on Jenkins')
     }
     stages {
         stage('Build') {
