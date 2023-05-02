@@ -30,12 +30,12 @@ pipeline {
         // Just for Docker
         stage('Login') {
             steps {
-                sh 'echo ${DOCKER_CREDS_PSW} | podman login ${REGISTRY} -u ${DOCKER_CREDS_USR} --password-stdin'
+                sh 'echo ${DOCKER_CREDS_PSW} | podman login ${REGISTRY} -u ${DOCKER_CREDS_USR} --password-stdin -v'
             }
         }
         stage('Push') {
             steps {
-                sh 'podman push ${DOCKER_CREDS_USR}/${CONT_NAME}:${CONT_TAG} --creds ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW}'
+                sh 'podman push ${DOCKER_CREDS_USR}/${CONT_NAME}:${CONT_TAG}'
             }
         }
     }
