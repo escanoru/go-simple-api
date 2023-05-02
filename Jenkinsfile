@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Login') {
             steps {
-                sh 'echo ${env.DOCKER_CREDS_PSW} | docker login -u ${env.DOCKER_CREDS_USR} --password-stdin'
+                sh 'echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin'
             }
         }
         // stage('Push') {
