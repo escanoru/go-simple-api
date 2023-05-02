@@ -6,6 +6,9 @@ pipeline {
     environment {
         DOCKER_CREDS = credentials("${params.DOCKER_CREDENTIALS}")
         CONT_NAME = "${params.APP_NAME}"
+        CONT_TAG = "${params.TAG}"
+        REGISTRY = "${params.REGISTRY}"
+        
     }
     parameters {
             string(name: 'APP_NAME', defaultValue: 'go-simple-api', description: 'Name of the app to push to Dockerhub')
@@ -19,7 +22,7 @@ pipeline {
                 //  `loginctl enable-linger $USER` needed to avoid https://github.com/containers/podman/issues/10738, usually we just need to run it the 1st time.
                 sh '''
                 loginctl enable-linger $USER
-                podman build -t ${DOCKER_CREDS_USR}/${CONT_NAME}:${TAG} .
+                podman build -t ${DOCKER_CREDS_USR}/${CONT_NAME}:${CONT_TAG} .
                 '''
             }
         }
@@ -32,7 +35,7 @@ pipeline {
         }
         stage('Push') {
             steps {
-                sh 'podman push ${DOCKER_CREDS_USR}/${CONT_NAME}:${TAG} --creds ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW}'
+                sh 'podman push ${DOCKER_CREDS_USR}/${CONT_NAME}:${CONT_TAG} --creds ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW}'
             }
         }
     }
