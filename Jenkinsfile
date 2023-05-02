@@ -14,9 +14,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                
+                sh '''
                 echo $USER
                 loginctl enable-linger jenkins
-                sh 'podman build -t ${DOCKER_CREDS_USR}/${CONT_NAME}:latest .'
+                podman build -t ${DOCKER_CREDS_USR}/${CONT_NAME}:latest .
+                '''
             }
         }
         // stage('Login') {
