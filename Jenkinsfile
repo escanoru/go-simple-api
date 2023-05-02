@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Push') {
             steps {
-                sh 'podmand push ${DOCKER_CREDENTIALS_USR}/${CONT_NAME}:latest'
+                sh 'podman push ${DOCKER_CREDENTIALS_USR}/${CONT_NAME}:latest'
             }
         }
     }
