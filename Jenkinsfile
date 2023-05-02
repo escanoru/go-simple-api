@@ -40,7 +40,7 @@ pipeline {
     }
     post {
         always {
-            sh 'podman logout ${REGISTRY}'
+            sh "podman logout ${params.REGISTRY}"
         }
     }
 }
